@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  private_tangle:
+    build: ./Docker
+    ports:
+      - "127.0.0.1:7081:8081"
+      - "127.0.0.1:14265:14265"
