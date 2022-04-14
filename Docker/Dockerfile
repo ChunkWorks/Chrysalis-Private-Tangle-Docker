@@ -8,9 +8,15 @@ RUN echo "Installing dependencies..." && \
 
 WORKDIR /opt/hornet
 
-RUN echo "Installing Hornet Binaries..." && \
-    wget https://github.com/gohornet/hornet/releases/download/v1.2.0/HORNET-1.2.0_Linux_x86_64.tar.gz -O hornet.tar.gz && \
-    tar --strip-components=1 -xvf hornet.tar.gz && rm hornet.tar.gz
+RUN /bin/bash -c 'set -ex && \
+    ARCH=`uname -m` && \
+    echo "Installing Hornet Binaries..." && \
+    if [ "$ARCH" == "x86_64" ]; then \
+       wget https://github.com/gohornet/hornet/releases/download/v1.2.0/HORNET-1.2.0_Linux_x86_64.tar.gz -O hornet.tar.gz; \
+    else \
+       wget https://github.com/gohornet/hornet/releases/download/v1.2.0/HORNET-1.2.0_Linux_ARM64.tar.gz -O hornet.tar.gz; \
+    fi && \
+    tar --strip-components=1 -xvf hornet.tar.gz && rm hornet.tar.gz'
 
 WORKDIR /opt/hornet/private_tangle
 
